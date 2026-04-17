@@ -1,0 +1,105 @@
+{
+  "expanded_tasks": [],
+  "tasks": [
+    {
+      "dependencies": [],
+      "description": "Set up the foundational repositories for both frontend and backend, including essential libraries, database connection, localization, and CI/CD pipelines.",
+      "details": "Frontend: Initialize Next.js with TypeScript, Tailwind CSS, and i18next (English & Bahasa Indonesia). Backend: Initialize Node.js/Express with TypeScript and connect to MongoDB Atlas. Set up ESLint, Prettier, and GitHub Actions for CI/CD targeting Vercel (frontend) and Heroku/AWS (backend).",
+      "id": 1,
+      "priority": "high",
+      "status": "pending",
+      "testStrategy": "Verify successful local build and startup for both frontend and backend. Confirm MongoDB connection logs successfully. Ensure CI/CD pipeline passes on a test PR and i18n switcher toggles languages in a dummy component.",
+      "title": "Initialize Project Infrastructure and Core Setup"
+    },
+    {
+      "dependencies": [],
+      "description": "Create MongoDB/Mongoose schemas and models for the core entities: Users, Trips, Bookings, Reviews, Notifications, and Messages.",
+      "details": "Define strict TypeScript interfaces and Mongoose schemas. User schema needs role ENUMs (Admin, Trip Leader, Participant). Trip schema needs embedded arrays for itinerary and references to the Trip Leader. Booking schema must handle payment statuses. Implement indexes on frequently queried fields (e.g., Trip destination, dates).",
+      "id": 2,
+      "priority": "high",
+      "status": "pending",
+      "testStrategy": "Write unit tests for each Mongoose model to validate required fields, default values, and schema constraints. Insert and retrieve mock data for each collection.",
+      "title": "Design and Implement Database Schema"
+    },
+    {
+      "dependencies": [],
+      "description": "Implement secure user registration, login, and session management using JWT, along with role-based access control.",
+      "details": "Create endpoints for email/password signup and login. Generate and verify JWTs with expiration. Build Express middleware to protect routes and verify roles (Admin, Trip Leader, Participant). Secure passwords using bcrypt. Implement secure HTTP-only cookies or strict local storage handling for the frontend.",
+      "id": 3,
+      "priority": "high",
+      "status": "pending",
+      "testStrategy": "Test signup and login flows via Postman. Attempt to access protected routes with missing/invalid/expired tokens. Verify that a Participant cannot access Trip Leader or Admin endpoints.",
+      "title": "Develop Authentication and Role-Based Authorization"
+    },
+    {
+      "dependencies": [],
+      "description": "Build the backend APIs and frontend UI for Trip Leaders to create, read, update, and delete open trip listings.",
+      "details": "API: Endpoints for Trip CRUD. Handle photo uploads (integrate with AWS S3 or Cloudinary). UI: Create a multi-step form for Trip Leaders to input dates, price, quota, and itinerary. Integrate Google Maps JavaScript API for the destination picker. Add an admin approval workflow (status: pending, approved, suspended).",
+      "id": 4,
+      "priority": "high",
+      "status": "pending",
+      "testStrategy": "End-to-end test of the trip creation flow. Verify images are uploaded and URLs are saved in MongoDB. Ensure the Google Map renders correctly and captures lat/lng. Test Admin approval state changes.",
+      "title": "Implement Trip Management Core (CRUD & Maps)"
+    },
+    {
+      "dependencies": [],
+      "description": "Create the public-facing homepage and search results page allowing users to find trips based on specific criteria.",
+      "details": "Frontend: Build the homepage showcasing featured trips and a search bar. Create a results page with filters (date range, destination, price range, duration, rating). Backend: Implement a robust search API using MongoDB aggregation pipelines or complex queries to handle multiple optional filter parameters efficiently. Implement pagination.",
+      "id": 5,
+      "priority": "medium",
+      "status": "pending",
+      "testStrategy": "Perform searches with various combinations of filters. Verify that pagination works and page load times remain under 2 seconds. Check mobile responsiveness of the filter sidebar.",
+      "title": "Develop Search, Filter, and Public Listing Pages"
+    },
+    {
+      "dependencies": [],
+      "description": "Develop the registration form and booking logic for participants, ensuring race conditions are handled for trip quotas.",
+      "details": "Create a booking endpoint that accepts participant details. Crucial: Use MongoDB atomic operators ($inc) or transactions to decrement available trip quota safely and prevent overbooking. Generate a pending Booking record and return a booking reference to the frontend.",
+      "id": 6,
+      "priority": "high",
+      "status": "pending",
+      "testStrategy": "Load testing: Simulate multiple concurrent booking requests for a trip with a quota of 1. Verify that only one booking succeeds and others receive a 'sold out' error.",
+      "title": "Build Booking Flow and Quota Management"
+    },
+    {
+      "dependencies": [],
+      "description": "Implement Stripe Connect (primary) and PayPal SDK for secure checkout, including webhook handlers for automated status updates.",
+      "details": "Integrate Stripe Checkout and PayPal Smart Buttons on the frontend. Backend: Create endpoints to generate payment intents/sessions. Implement robust webhook endpoints to listen for 'payment_intent.succeeded' or PayPal equivalents to automatically update the Booking status to 'Paid'. Ensure automatic retries and idempotency.",
+      "id": 7,
+      "priority": "high",
+      "status": "pending",
+      "testStrategy": "Process test payments using Stripe and PayPal sandbox accounts. Manually trigger webhooks using Stripe CLI to ensure booking statuses update correctly from 'Pending' to 'Paid'.",
+      "title": "Integrate Payment Gateways (Stripe & PayPal)"
+    },
+    {
+      "dependencies": [],
+      "description": "Build personalized dashboard interfaces and supporting APIs for Participants, Trip Leaders, and Admins.",
+      "details": "Participant: View upcoming/past trips and payment statuses. Trip Leader: View active trips, participant lists, and payout history/requests. Admin: View platform metrics, approve/suspend trips, and manage user accounts. Use React Query or Axios for efficient data fetching and caching.",
+      "id": 8,
+      "priority": "medium",
+      "status": "pending",
+      "testStrategy": "Log in as each role and verify that only the relevant dashboard components and data are accessible. Test state updates (e.g., Trip Leader requesting a payout, Admin approving a trip).",
+      "title": "Create Role-Specific User Dashboards"
+    },
+    {
+      "dependencies": [],
+      "description": "Develop a per-trip group chat for organizers and participants, and set up email and in-app notifications.",
+      "details": "Chat: Integrate Socket.io for real-time messaging within a specific trip's context, storing message history in MongoDB. Notifications: Create a reusable notification service. Integrate SendGrid/Mailgun for transactional emails (booking confirmations, reminders). Build an in-app notification bell UI.",
+      "id": 9,
+      "priority": "medium",
+      "status": "pending",
+      "testStrategy": "Open two browser windows with different users in the same trip to test real-time chat delivery. Trigger a booking and verify the confirmation email is delivered via SendGrid. Check the in-app notification bell updates.",
+      "title": "Implement Real-time Chat and Notification System"
+    },
+    {
+      "dependencies": [],
+      "description": "Add post-trip feedback mechanisms and allow users to export their booked trips to personal calendars.",
+      "details": "Reviews: Create a form for participants to submit 1-5 star ratings and comments for past trips. Update the Trip model to aggregate average ratings. Calendar: Implement a library (e.g., ics) to generate an iCal file download and a 'Add to Google Calendar' link based on trip dates.",
+      "id": 10,
+      "priority": "low",
+      "status": "pending",
+      "testStrategy": "Submit a review and verify the trip's average rating recalculates correctly. Click the calendar export links and verify the downloaded .ics file imports correctly into a calendar application with the right timezones.",
+      "title": "Develop Reviews, Ratings, and Calendar Export"
+    }
+  ]
+}
